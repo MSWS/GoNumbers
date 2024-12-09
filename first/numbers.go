@@ -83,7 +83,6 @@ func processGuess(guess int) {
 	if guess == correct {
 		fmt.Printf("You guessed my number in %d guesses!\n", initialGuesses-guessesLeft+1)
 		os.Exit(0)
-		return
 	}
 
 	if guessesLeft == 1 {
