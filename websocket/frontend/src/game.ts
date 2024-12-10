@@ -23,6 +23,7 @@ inputBox.addEventListener("keydown", (event) => {
 
     guesses++;
     state = State.WAIT;
+    inputBox.value = "";
     ws.send(new Uint8Array([lastGuess]));
   }
 });
