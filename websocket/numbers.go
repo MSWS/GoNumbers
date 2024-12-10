@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/hex"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/websocket"
@@ -24,6 +26,14 @@ type Game struct {
 
 func main() {
 	http.HandleFunc("/", CreateNewGame)
+
+	log.Println("Starting server...")
+
+	err := http.ListenAndServe(":1234", nil)
+
+	if err == nil {
+		log.Println(err)
+	}
 }
 
 func (game Game) GetGuessesLeft() int {
@@ -35,6 +45,7 @@ func CreateNewGame(response http.ResponseWriter, request *http.Request) {
 		min:        1,
 		max:        100,
 		maxGuesses: 8,
+		correct:    50,
 	}
 
 	game.Handler(response, request)
@@ -49,6 +60,8 @@ func (game Game) Handler(response http.ResponseWriter, request *http.Request) {
 
 	defer ctx.Close()
 
+	log.Printf("%s INIT\n", request.RemoteAddr)
+
 	game.initializeGame(ctx)
 
 	for {
@@ -56,6 +69,9 @@ func (game Game) Handler(response http.ResponseWriter, request *http.Request) {
 			break
 		}
 	}
+
+	log.Printf("%s END\n", request.RemoteAddr)
+
 }
 
 func (game Game) initializeGame(ctx *websocket.Conn) {
@@ -66,19 +82,24 @@ func (game Game) initializeGame(ctx *websocket.Conn) {
 // Returns true if the game should continue (i.e. another turn)
 // and false if the game has ended
 func (game *Game) doTurn(ctx *websocket.Conn) bool {
+	addr := ctx.UnderlyingConn().RemoteAddr()
+	log.Printf("%s TURN BEGIN\n", addr)
 	err := ctx.WriteMessage(websocket.BinaryMessage, []byte{byte(game.GetGuessesLeft())})
 
 	if err != nil {
+		log.Printf("Error occurred sending message: %v\n", err)
 		return false
 	}
 
 	mt, msg, err := ctx.ReadMessage()
 
 	if err != nil || mt != websocket.BinaryMessage {
+		log.Printf("Error occurred reading message: %v\n", err)
 		return false
 	}
 
 	guess := msg[0]
+	log.Printf("%s sent %s (%d)\n", addr, hex.EncodeToString(msg), guess)
 
 	if !game.isValidGuess(int(guess)) {
 		ctx.WriteMessage(websocket.BinaryMessage, []byte{GUESS_INVALID})
