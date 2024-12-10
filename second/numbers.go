@@ -129,7 +129,7 @@ func (game *Game) EndGame(won bool) {
 		if game.guessesUsed != 1 {
 			str += "es"
 		}
-		fmt.Fprintf(game.output, "You guessed %d in %d %s", game.correct, game.guessesUsed, str)
+		fmt.Fprintf(game.output, "You guessed %d in %d %s.", game.correct, game.guessesUsed, str)
 
 		return
 	}

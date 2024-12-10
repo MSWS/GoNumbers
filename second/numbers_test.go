@@ -229,6 +229,55 @@ func TestGetInput(t *testing.T) {
 	})
 }
 
+func TestEndGame(t *testing.T) {
+	t.Run("ZeroGuesses", func(t *testing.T) {
+		game, out := createTestGame(t)
+		game.EndGame(true)
+
+		exp := "You guessed 50 in 0 guesses."
+
+		if exp != out.String() {
+			t.Fatalf("Expected \"%s\" to match \"%s\"", out.String(), exp)
+		}
+	})
+
+	t.Run("OneGuess", func(t *testing.T) {
+		game, out := createTestGame(t)
+		game.AcceptInput(game.correct)
+		game.EndGame(true)
+
+		exp := "You guessed 50 in 1 guess."
+
+		if exp != out.String() {
+			t.Fatalf("Expected \"%s\" to match \"%s\"", out.String(), exp)
+		}
+	})
+
+	t.Run("TwoGuesses", func(t *testing.T) {
+		game, out := createTestGame(t)
+		game.AcceptInput(game.correct)
+		game.AcceptInput(game.correct)
+		game.EndGame(true)
+
+		exp := "You guessed 50 in 2 guesses."
+
+		if exp != out.String() {
+			t.Fatalf("Expected \"%s\" to match \"%s\"", out.String(), exp)
+		}
+	})
+
+	t.Run("CouldNotGuess", func(t *testing.T) {
+		game, out := createTestGame(t)
+		game.EndGame(false)
+
+		exp := "You could not guess 50."
+
+		if exp != out.String() {
+			t.Fatalf("Expected \"%s\" to match \"%s\"", out.String(), exp)
+		}
+	})
+}
+
 func createTestGame(t *testing.T) (*Game, *bytes.Buffer) {
 	writer := &bytes.Buffer{}
 
