@@ -6,6 +6,10 @@ on:
       - "**/*.go"
       - ".github/workflows/build.yml"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   go-build-and-test:
     runs-on: ubuntu-latest

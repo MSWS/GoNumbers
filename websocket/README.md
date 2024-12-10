@@ -18,4 +18,12 @@ A simple number guessing game implemented using web sockets.
 | GUESS_CORRECT | 3     | The guess is correct.                |
 
 6. If the guess is correct, the server terminates the connection. Otherwise, the server decrements the number of guesses and sends the client the number of guesses left.
-1. If the client runs out of guesses, the server terminates the connection.
+1. The server then waits for the client to send another guess, repeating the process.
+1. If the client runs out of guesses, the server sends the correct number and then terminates the connection.
+
+# Design
+## Server
+A golang websocket server that implements the behavior above.
+
+## Client
+An HTML page orchestrated with TypeScript that connects to the server via websockets and plays the game.
