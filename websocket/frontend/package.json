@@ -4,10 +4,10 @@
   "main": "game.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && npm run minify && npm run deploy",
-    "minify": "uglifyjs dist/*.js -c -m -o dist/game.min.js",
-    "deploy": "cp dist/*.min.js html/",
-    "clean": "rm -rf dist html/*.min.js"
+    "build": "tsc && npm run minify",
+    "minify": "for file in $(find ./dist -type f -name *.js); do uglifyjs $file -c -m -o ./html/$(basename $file); done",
+    "clean": "rm -rf dist html/*.js",
+    "lint": "eslint"
   },
   "author": "",
   "description": "",

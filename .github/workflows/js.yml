@@ -1,0 +1,22 @@
+name: Build TypeScript Project
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Lint
+      run: npm run lint
+
+    - name: Build project
+      run: npm run build

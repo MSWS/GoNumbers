@@ -6,3 +6,8 @@ body {
 .centered {
   align-content: center;
 }
+
+:invalid {
+  border: red;
+  background-color: red;
+}
