@@ -2,7 +2,9 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ '*' ]
+    paths:
+      - "**/*.go"
+      - "websocket/backend/*"
 
 env:
   # Use docker.io for Docker Hub if empty

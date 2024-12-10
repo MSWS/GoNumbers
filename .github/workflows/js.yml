@@ -2,7 +2,9 @@ name: Build TypeScript Project
 
 on:
   push:
-  pull_request:
+    paths: 
+      - "**/*.ts"
+      - "websocket/frontend/*"
 
 jobs:
   build:
