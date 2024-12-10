@@ -27,6 +27,10 @@ type Game struct {
 }
 
 func main() {
+	upgrader.CheckOrigin = func(r *http.Request) bool {
+		return true
+	}
+
 	http.HandleFunc("/", CreateNewGame)
 
 	portString := os.Getenv("NUMBER_PORT")
@@ -43,7 +47,7 @@ func main() {
 	log.Printf("Starting server on port %s\n", portString)
 	err = http.ListenAndServe(":"+portString, nil)
 
-	if err == nil {
+	if err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -67,6 +71,7 @@ func (game Game) Handler(response http.ResponseWriter, request *http.Request) {
 	ctx, err := upgrader.Upgrade(response, request, nil)
 
 	if err != nil {
+		log.Printf("Error upgrading connection: %v", err)
 		return
 	}
 
