@@ -30,7 +30,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: "html/"
+        path: "websocket/frontend/html/"
 
   push:
     runs-on: ubuntu-latest
