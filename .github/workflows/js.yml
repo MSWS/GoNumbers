@@ -5,6 +5,7 @@ on:
     paths: 
       - "**/*.ts"
       - "websocket/frontend/*"
+      - ".github/workflows/js.yml"
 
 jobs:
   build:

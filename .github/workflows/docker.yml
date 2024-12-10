@@ -5,6 +5,7 @@ on:
     paths:
       - "**/*.go"
       - "websocket/backend/*"
+      - ".github/workflows/docker.yml"
 
 env:
   # Use docker.io for Docker Hub if empty

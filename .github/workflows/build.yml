@@ -2,7 +2,9 @@ name: Go Build and Test
 
 on:
   push:
-    paths: "**/*.go"
+    paths:
+      - "**/*.go"
+      - ".github/workflows/build.yml"
 
 jobs:
   go-build-and-test:
