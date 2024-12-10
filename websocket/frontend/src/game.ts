@@ -14,11 +14,11 @@ ws.binaryType = "arraybuffer";
 
 inputBox.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    if (!inputBox.checkValidity() || state != State.ACTIVE) {
-      console.log("Invalid");
+    if (!inputBox.checkValidity() || state != State.ACTIVE)
       return;
-    }
-    console.log(`Value: ${inputBox.value}`);
+    if (inputBox.value.length === 0)
+      return;
+
     lastGuess = inputBox.valueAsNumber;
 
     guesses++;
@@ -42,35 +42,36 @@ ws.addEventListener("message", (ev) => {
       min = view.getUint8(0);
       max = view.getUint8(1);
       text.innerText = `Guess a number between [${min}, ${max}]`;
+      text.innerHTML += "<br>";
 
+      inputBox.disabled = false;
       inputBox.min = `${min}`;
       inputBox.max = `${max}`;
       state = State.WAIT_NEXT;
       break;
     case State.WAIT:
+      text.innerHTML += "<br>";
       // Handle result of our guess
       switch (view.getUint8(0)) {
         case GuessResult.GUESS_CORRECT:
-          text.innerHTML += "<br>";
           text.innerText += `You guessed ${lastGuess} in ${guesses}`;
           ws.close();
           return;
         case GuessResult.GUESS_HIGHER:
-          text.innerHTML += "<br>";
-          text.innerText += "The number is higher";
+          text.innerText += `The number is higher than ${lastGuess}`;
           break;
         case GuessResult.GUESS_LOWER:
-          text.innerHTML += "<br>";
-          text.innerText += "The number is lower";
+          text.innerText += `The number is lower than ${lastGuess}`;
           break;
       }
+      text.innerHTML += "<br>";
       state = State.WAIT_NEXT;
       break;
     case State.WAIT_NEXT:
       // Tell user we have some guesses left
       remaining = view.getUint8(0);
       text.innerHTML += "<br>";
-      text.innerText += `You have ${remaining} guess(es) left`;
+      text.innerText += `You have ${remaining} guess${remaining == 1 ? "" : "es"} left`;
       state = State.ACTIVE;
       break;
     case State.ACTIVE:

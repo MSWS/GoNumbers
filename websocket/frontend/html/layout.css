@@ -1,0 +1,26 @@
+/* html,
+body {
+  margin: 0;
+  height: 100%;
+} */
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  display: inline;
+}
+
+.valign {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+
+body>div {
+  margin-top: 40vh;
+  align-content: center;
+}

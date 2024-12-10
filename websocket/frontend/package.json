@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && npm run minify",
-    "minify": "for file in $(find ./dist -type f -name *.js); do uglifyjs $file -c -m -o ./html/$(basename $file); done",
-    "clean": "rm -rf dist html/*.js",
+    "minify": "for file in $(find ./html -type f -name *.js); do uglifyjs $file -c -m -o $file; done",
+    "clean": "rm -rf html/*.js",
     "lint": "eslint"
   },
   "author": "",

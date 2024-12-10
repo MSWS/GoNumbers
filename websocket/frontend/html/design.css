@@ -1,0 +1,16 @@
+:root {
+  --background-color: #141414;
+  --primary-color: #FFDDE2;
+  --secondary-color: #B8D8D8;
+  --emphasis-color: #2D82B7;
+
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+input {
+  border: 5px solid var(--secondary-color);
+  border-radius: 10%;
+  background-color: var(--primary-color);
+}
