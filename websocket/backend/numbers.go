@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
@@ -61,7 +62,7 @@ func CreateNewGame(response http.ResponseWriter, request *http.Request) {
 		min:        1,
 		max:        100,
 		maxGuesses: 8,
-		correct:    50,
+		correct:    rand.Intn(100) + 1,
 	}
 
 	game.Handler(response, request)
