@@ -73,7 +73,7 @@ ws.addEventListener("message", (ev) => {
 
       text.innerHTML += "<br>";
 
-      if (remaining === 0) {
+      if (remaining == 0) {
         state = State.LOST;
         return;
       }
@@ -85,7 +85,7 @@ ws.addEventListener("message", (ev) => {
       correct = view.getUint8(0);
 
       text.innerHTML += "<br>";
-      text.innerText += `You failed to guess the number, it was ${correct}`;
+      text.innerText += `You failed to guess ${correct}.`;
       break;
     case State.ACTIVE:
       console.error(`received message in unsupported state (${State[state]})`);
