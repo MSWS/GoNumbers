@@ -24,6 +24,12 @@ export enum State {
   ACTIVE,
 
   /**
+   * We have run out of turns and are waiting for the server
+   * to tell us what the number was
+   */
+  LOST,
+
+  /**
    * The game is no longer active
    */
   INACTIVE

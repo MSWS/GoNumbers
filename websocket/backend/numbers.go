@@ -102,9 +102,11 @@ func (game Game) initializeGame(ctx *websocket.Conn) {
 func (game *Game) doTurn(ctx *websocket.Conn) bool {
 	addr := ctx.UnderlyingConn().RemoteAddr()
 	log.Printf("%s TURN BEGIN\n", addr)
-	err := ctx.WriteMessage(websocket.BinaryMessage, []byte{byte(game.GetGuessesLeft())})
+	guessesLeft := game.GetGuessesLeft()
+	err := ctx.WriteMessage(websocket.BinaryMessage, []byte{byte(guessesLeft)})
 
-	if game.GetGuessesLeft() == 0 {
+	if guessesLeft == 0 {
+		ctx.WriteMessage(websocket.BinaryMessage, []byte{byte(game.correct)})
 		ctx.Close()
 		return false
 	}

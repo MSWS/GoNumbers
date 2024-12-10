@@ -36,7 +36,7 @@ ws.addEventListener("message", (ev) => {
 
   const data = ev.data as ArrayBuffer;
   const view = new DataView(data);
-  let remaining: number;
+  let remaining, correct: number;
   switch (state) {
     case State.INIT:
       min = view.getUint8(0);
@@ -70,9 +70,22 @@ ws.addEventListener("message", (ev) => {
     case State.WAIT_NEXT:
       // Tell user we have some guesses left
       remaining = view.getUint8(0);
+
       text.innerHTML += "<br>";
+
+      if (remaining === 0) {
+        state = State.LOST;
+        return;
+      }
+
       text.innerText += `You have ${remaining} guess${remaining == 1 ? "" : "es"} left`;
       state = State.ACTIVE;
+      break;
+    case State.LOST:
+      correct = view.getUint8(0);
+
+      text.innerHTML += "<br>";
+      text.innerText += `You failed to guess the number, it was ${correct}`;
       break;
     case State.ACTIVE:
       console.error(`received message in unsupported state (${State[state]})`);
