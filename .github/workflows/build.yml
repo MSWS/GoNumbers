@@ -20,7 +20,7 @@ jobs:
       - name: Find and process directories with go.mod
         run: |
           # Find all directories with go.mod in the immediate subdirectories
-          for dir in $(find . -mindepth 2 -maxdepth 2 -type f -name "go.mod" -exec dirname {} \;); do
+          for dir in $(find . -name "go.mod" -exec dirname {} \;); do
             echo "Processing $dir"
             cd "$dir"
             

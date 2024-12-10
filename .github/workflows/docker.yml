@@ -44,7 +44,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: websocket
-          file: websocket/Dockerfile
+          context: websocket/backend
+          file: websocket/backend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.TAG }} 
