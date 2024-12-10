@@ -104,6 +104,11 @@ func (game *Game) doTurn(ctx *websocket.Conn) bool {
 	log.Printf("%s TURN BEGIN\n", addr)
 	err := ctx.WriteMessage(websocket.BinaryMessage, []byte{byte(game.GetGuessesLeft())})
 
+	if game.GetGuessesLeft() == 0 {
+		ctx.Close()
+		return false
+	}
+
 	if err != nil {
 		log.Printf("Error occurred sending message: %v\n", err)
 		return false
@@ -130,17 +135,13 @@ func (game *Game) doTurn(ctx *websocket.Conn) bool {
 		return false
 	}
 
-	if game.GetGuessesLeft() == 1 {
-		ctx.Close()
-		return false
-	}
-
 	game.guessesUsed++
 
 	result := GUESS_HIGHER
 	if guess > byte(game.correct) {
 		result = GUESS_LOWER
 	}
+
 	ctx.WriteMessage(websocket.BinaryMessage, []byte{byte(result)})
 	return true
 }
