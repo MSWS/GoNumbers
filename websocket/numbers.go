@@ -4,6 +4,8 @@ import (
 	"encoding/hex"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 
 	"github.com/gorilla/websocket"
 )
@@ -27,12 +29,22 @@ type Game struct {
 func main() {
 	http.HandleFunc("/", CreateNewGame)
 
-	log.Println("Starting server...")
+	portString := os.Getenv("NUMBER_PORT")
+	if len(portString) == 0 {
+		portString = "1234"
+	}
 
-	err := http.ListenAndServe(":1234", nil)
+	_, err := strconv.Atoi(portString)
+
+	if err != nil {
+		log.Fatalf("Invalid port number: %s", portString)
+	}
+
+	log.Printf("Starting server on port %s\n", portString)
+	err = http.ListenAndServe(":"+portString, nil)
 
 	if err == nil {
-		log.Println(err)
+		log.Fatalln(err)
 	}
 }
 
