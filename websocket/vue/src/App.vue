@@ -9,3 +9,17 @@ import GameWindow from './components/GameWindow.vue'
     <GameWindow />
   </main>
 </template>
+
+<style lang="css" scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  height: 100vh;
+  width: 100vw;
+
+
+  font-size: xx-large;
+}
+</style>

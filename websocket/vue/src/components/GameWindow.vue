@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import NumberField from './NumberField.vue'
 import Keypad from './Keypad.vue'
+
+function test(num: number) {
+  console.log(`submitted: ${num}`)
+}
 </script>
 
 <template>
   <div>
-    <NumberField />
-    <Keypad />
+    <Keypad :onSubmit="test" :max=100 />
   </div>
 </template>
 
 <style lang="css" scoped>
 div {
-  background-color: red;
-  align-items: center;
+  background-color: grey;
+  width: 50vmin;
+  height: 50vmin;
 }
 </style>

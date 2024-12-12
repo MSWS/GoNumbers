@@ -1,12 +1,31 @@
 <template>
-  <textarea>foo</textarea>
+  <div class="guess-container">
+    <span class="label">
+      Guess:
+    </span>
+    <span id="number">
+      <slot>Default Number field</slot>
+    </span>
+  </div>
 </template>
 
-<style lang="css" module>
-textarea {
-  align-self: center;
+<style scoped>
+.guess-container {
   display: flex;
-  align-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+
+.label {
+  text-align: left;
+}
+
+#number {
+  text-align: right;
+  min-width: 3ch;
+}
+
+span {
+  font-size: 100%;
 }
 </style>
