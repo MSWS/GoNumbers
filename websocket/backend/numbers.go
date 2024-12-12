@@ -60,12 +60,31 @@ func (game Game) GetGuessesLeft() int {
 func CreateNewGame(response http.ResponseWriter, request *http.Request) {
 	game := Game{
 		min:        1,
-		max:        100,
-		maxGuesses: 8,
+		max:        getOrDefault("NUMBER_MAX", 100),
+		maxGuesses: getOrDefault("NUMBER_GUESSES", 8),
 		correct:    rand.Intn(100) + 1,
 	}
 
 	game.Handler(response, request)
+}
+
+// Gets the value of an environment variable,
+// or returns a default value if the environment variable is not set
+func getOrDefault(envVar string, defaultVal int) int {
+	str := os.Getenv(envVar)
+
+	if len(str) == 0 {
+		return defaultVal
+	}
+
+	val, err := strconv.Atoi(str)
+
+	if err != nil {
+		log.Printf("Invalid value for %s: %s\n", envVar, str)
+		return defaultVal
+	}
+
+	return val
 }
 
 func (game Game) Handler(response http.ResponseWriter, request *http.Request) {

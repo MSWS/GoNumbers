@@ -1,9 +1,8 @@
 services:
   numbers:
-    image: numbers
-    name: numbers
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # ports:
-    #   - "8080:8080"
+    image: ghcr.io/msws/gonumbers:latest
+    ports:
+      - "443:1234"
+    environment:
+      - NUMBER_GUESSES=7
+      - NUMBER_PORT=1234
